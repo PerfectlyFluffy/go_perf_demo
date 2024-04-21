@@ -8,6 +8,8 @@ At this point, it's not clear if it's AMD or Go fault and my goal is to find out
 
 I'm going to maintain a changelog of the discoveries I do. If you read it and you notice I refer to a line of code of a specific file, keep in mind that the code may have changed since then. I recommend that you create a branch on the specific commit I wrote the changelog if you want to try it yourself.
 
+The changelog is available here: [Changelog](./CHANGELOG.md)
+
 ## List of AMD CPU confirmed to suffer from this problem
 
 While I cannot say that all AMD CPUs suffer from this problem, I have confirmed that the two I own, a 5700x and a 5950x, have the problem.

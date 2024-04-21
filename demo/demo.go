@@ -6,13 +6,18 @@ import (
 	"sync"
 )
 
-// Find a number that will make the benchmark
-// last between 3 to 5 secondes.
-var LOOP_COUNT = uint64(52500000000)
+var WG_TEST sync.WaitGroup
 
 func Run(loopCount uint64) {
-	// Add "" to fmt.Print() to get lost performance back.
-	fmt.Print() // ==> fmt.Print("")
+	//fmt.Print() // => Impact performance! 1/2
+	//fmt.Print("") // => Impact performance! 1/3
+	//Func0Param() // => Impact performance! 1/2
+	//Func1Param("") // => Impact performance! 1/3
+	//Func3Param("", "", "") // => Impact performance! 1/3
+	//WG_TEST.Add(0) // => Impact performance! 1/3
+
+	EmptyFunction()    // => No impact on performance!
+	Func2Param("", "") // => No impact on performance!
 
 	ctx := newContext(loopCount)
 	runtime.GOMAXPROCS(ctx.threadCount)
@@ -30,6 +35,29 @@ func Run(loopCount uint64) {
 	}
 	wg.Wait()
 	close(buffer)
+}
+
+func EmptyFunction() {}
+
+func RunOutOfScope() {
+	fmt.Print()
+}
+
+func Func0Param() {
+	fmt.Print()
+}
+
+func Func1Param(empty string) {
+	fmt.Print(empty)
+}
+
+func Func2Param(empty string, empty2 string) {
+	fmt.Print(empty, empty2) // => Will **not** impact performance if present only one time.
+	// fmt.Print(empty, empty2) // => Will impact performance if uncommented.
+}
+
+func Func3Param(empty string, empty2 string, empty3 string) {
+	fmt.Print(empty, empty2, empty3)
 }
 
 func findPerfectNumbers(b batch) {
